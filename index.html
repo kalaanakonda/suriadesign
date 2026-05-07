@@ -324,11 +324,30 @@
 			align-self: flex-start !important;
 			text-align: left !important;
 			order: 1 !important;
+			height: auto !important;
+			overflow: visible !important;
 		}
 		.framer-1bhz4ma .framer-1w63x84-container > span {
+			font-size: 144px !important;
+			line-height: 0.92 !important;
+			letter-spacing: -5px !important;
+			font-weight: 600 !important;
 			text-align: left !important;
 			--framer-text-alignment: left !important;
 			white-space: nowrap !important;
+			display: inline-block !important;
+		}
+		@media (max-width: 1199px) {
+			.framer-1bhz4ma .framer-1w63x84-container > span {
+				font-size: 112px !important;
+				letter-spacing: -4px !important;
+			}
+		}
+		@media (max-width: 809px) {
+			.framer-1bhz4ma .framer-1w63x84-container > span {
+				font-size: 96px !important;
+				letter-spacing: -3px !important;
+			}
 		}
 		/* Label → pulled OUT of normal flow → absolute bottom-right of the card */
 		.framer-1bhz4ma .framer-m2h5ew {
@@ -645,27 +664,10 @@
 		[data-framer-name="image"] [data-framer-background-image-wrapper="true"] {
 			visibility: hidden !important;
 		}
-		/* Pagination dots — direct child of [data-framer-name="image"] so they
-		   sit above the info panel's stacking context. Left-aligned to match
-		   the info panel's left padding (so dots line up with the title/desc text). */
+		/* Pagination dots — REMOVED per design (dragging is the only navigation) */
+		.stoik-pcar-dots,
 		[data-framer-name="image"] > .stoik-pcar-dots {
-			position: absolute;
-			left: clamp(18px, 2.2vw, 32px);
-			bottom: 14px;
-			display: flex;
-			gap: 6px;
-			z-index: 7;
-			pointer-events: none;
-		}
-		.stoik-pcar-dot {
-			width: 6px; height: 6px; border-radius: 50%;
-			background: rgba(255, 255, 255, 0.45);
-			transition: background 200ms ease, width 200ms ease;
-		}
-		.stoik-pcar-dot.is-active {
-			background: #fff;
-			width: 18px;
-			border-radius: 3px;
+			display: none !important;
 		}
 		/* Circular DRAG cursor — follows mouse while over a project carousel */
 		.stoik-drag-cursor {

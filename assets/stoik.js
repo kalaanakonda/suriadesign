@@ -185,9 +185,13 @@
 				['\u00a92026 yogi-suria. All Rights Reserved', '\u00a92026 stoik. All Rights Reserved'],
 				['Team', 'Testimonials'],
 				['Want to join our team?', 'What our clients say'],
-				// Stat-card labels — match the new numbers
+				// Stat-card labels — match the new numbers (template uses these exact strings)
 				['Years of service', 'Years of experience'],
+				['Experies & Experience', 'Years of experience'],
+				['Expertise & Experience', 'Years of experience'],
 				['Agency Awards', 'TVL across protocols'],
+				['Awards & Achievements', 'TVL across protocols'],
+				['Completed Projects', 'Web3 protocols'],
 				['Projects', 'Web3 protocols'],
 				// Repurpose team cards as testimonial cards
 				['Higuen Berlie', 'Stanislav Buynovskiy'],
@@ -1465,20 +1469,27 @@
 		// dataset.stoikNum so React rerenders that put back the original digits
 		// get caught and replaced by the next applyAll tick (via MutationObserver).
 		function setStatCardNumbers() {
-			var statValues = {
-				'Years of': '8+',
-				'TVL':      '$12B+',
-				'Web3':     '10+'
-			};
+			// Match BOTH original template labels and post-replacement labels.
+			// Order matters: more specific keys first.
+			var statValues = [
+				{ keys: ['Years of', 'Experies', 'Expertise', 'Experience'], value: '8+' },
+				{ keys: ['TVL', 'Awards', 'Achievements'],                   value: '$12B+' },
+				{ keys: ['Web3', 'Completed', 'Projects'],                   value: '10+' }
+			];
 			var cards = document.querySelectorAll('.framer-1bhz4ma');
 			cards.forEach(function(card) {
 				var p = card.querySelector('.framer-m2h5ew p, .framer-m2h5ew .framer-text');
 				if (!p) return;
 				var t = (p.textContent || '').trim();
 				var match = null;
-				Object.keys(statValues).forEach(function(k) {
-					if (t.indexOf(k) >= 0) match = statValues[k];
-				});
+				for (var s = 0; s < statValues.length && !match; s++) {
+					for (var k = 0; k < statValues[s].keys.length; k++) {
+						if (t.indexOf(statValues[s].keys[k]) >= 0) {
+							match = statValues[s].value;
+							break;
+						}
+					}
+				}
 				if (!match) return;
 				var numContainer = card.querySelector('.framer-1w63x84-container');
 				if (!numContainer) return;
