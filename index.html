@@ -2425,22 +2425,31 @@
 			cards.forEach(function(el){
 				try { el.removeAttribute('data-framer-cursor'); } catch (er) {}
 			});
-			// Hard-neutralize every project anchor: strip href, role, target,
-			// aria, and replace any onclick. Keeps the element in the DOM so
-			// the carousel layout doesn't shift, but it's no longer a link.
+			// Hard-replace every project anchor with a plain <div>. There
+			// is literally no link to follow — Framer's React onClick can
+			// still fire but it has nothing to navigate to.
 			var anchors = document.querySelectorAll(
-				'[data-framer-name="Project-wrapper"] a[href*="projects/"], ' +
-				'a[href^="./projects/"], a[href^="/projects/"]'
+				'[data-framer-name="Project-wrapper"] a, ' +
+				'a[href*="projects/"], ' +
+				'a[href^="./projects/"], ' +
+				'a[href^="/projects/"]'
 			);
 			anchors.forEach(function(a){
+				if (a.dataset.stoikDeAnchored === '1') return;
 				try {
-					a.removeAttribute('href');
-					a.removeAttribute('target');
-					a.removeAttribute('rel');
-					a.removeAttribute('role');
-					a.setAttribute('draggable', 'false');
-					a.style.cursor = 'default';
-					a.onclick = function(e){ e && e.preventDefault && e.preventDefault(); return false; };
+					var div = document.createElement('div');
+					// Copy attributes (except href/target/rel — they don't
+					// apply to a div anyway). Class + data-* preserved so
+					// Framer's CSS selectors still target the element.
+					for (var i = 0; i < a.attributes.length; i++) {
+						var attr = a.attributes[i];
+						if (attr.name === 'href' || attr.name === 'target' || attr.name === 'rel') continue;
+						try { div.setAttribute(attr.name, attr.value); } catch(_) {}
+					}
+					div.dataset.stoikDeAnchored = '1';
+					// Move children over so the visible card is identical.
+					while (a.firstChild) div.appendChild(a.firstChild);
+					a.parentNode.replaceChild(div, a);
 				} catch(er) {}
 			});
 		}
