@@ -1316,9 +1316,9 @@
 							'<p class="stoik-pbox-copy">' +
 								'I break every barrier and just create. No process, no ' +
 								'permission slips, no handoff lag — the brief lands and ' +
-								'the work starts. Wired ADHD and OCD spectrum, I ' +
-								'mainline the problem and refine until it physically ' +
-								'can’t be improved. Pure instinct, shipped sharp.' +
+								'the work starts. Restless and detail-obsessed, I lock ' +
+								'onto the problem and refine until it physically can’t ' +
+								'be improved. Pure instinct, shipped sharp.' +
 							'</p>' +
 							'<video class="stoik-pbox-video" autoplay muted loop playsinline preload="metadata" src="assets/justbringit.webm"></video>' +
 						'</section>' +
@@ -1381,7 +1381,7 @@
 				name: 'Rick Bagshaw',
 				role: 'Ex-CMO, P2P.org',
 				image: 'assets/testimonials/rick.png',
-				quote: 'Yogi anchored marketing design at P2P.org full-time. Strong taste, fast turnarounds, and a real sense of ownership over the brand — he raised the bar for everything the team shipped.'
+				quote: 'Yogi anchored marketing design at P2P.org. Strong taste, fast turnarounds, and a real sense of ownership over the brand — he raised the bar for everything the team shipped.'
 			},
 			{
 				name: 'Filip Berger',
