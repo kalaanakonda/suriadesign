@@ -421,6 +421,16 @@
 			flex: 1 1 auto !important;
 			gap: 4px !important;
 			min-height: 0 !important;
+			position: relative !important;
+			z-index: 2 !important;
+		}
+		.stoik-cta-button {
+			position: relative !important;
+			z-index: 2 !important;
+		}
+		.stoik-yogi-avatar {
+			position: relative !important;
+			z-index: 1 !important;
 		}
 		.stoik-cta-title {
 			margin: 0 !important;
@@ -479,10 +489,10 @@
 		   A faint shimmer band sweeps across via animated mask-image. */
 		.stoik-cta-floral {
 			position: absolute !important;
-			right: -8px !important;
-			bottom: -50px !important;
-			width: 148px !important;
-			height: 148px !important;
+			right: -6px !important;
+			bottom: -38px !important;
+			width: 122px !important;
+			height: 122px !important;
 			pointer-events: none !important;
 			opacity: 0.14 !important;
 			z-index: 0 !important;
