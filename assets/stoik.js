@@ -734,9 +734,14 @@
 			if (!heading) return;
 			heading.classList.add('stoik-about-heading-font');
 
-			var source = heading.dataset.stoikWordSource || (heading.textContent || '').replace(/\s+/g, ' ').trim();
-			heading.dataset.stoikWordSource = source;
-			if (!source) return;
+			// Override the original Framer template copy with brand-aligned text.
+			// One designer, one package — brand, product, marketing, motion, AI.
+			var SOURCE = 'One designer. One package. Brand, product, marketing, motion, and AI design — shipped end-to-end, no handoffs.';
+			if (heading.dataset.stoikWordSource !== SOURCE) {
+				heading.dataset.stoikWordSource = SOURCE;
+				delete heading.dataset.stoikWordsBuilt;  // force rebuild with new copy
+			}
+			var source = SOURCE;
 
 			if (!heading.dataset.stoikWordsBuilt) {
 				heading.textContent = '';
