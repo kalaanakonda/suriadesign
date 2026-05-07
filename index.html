@@ -66,13 +66,36 @@
 				if (isProjectUrl(location.pathname)) {
 					try { history.replaceState({}, '', '/'); } catch(_) {}
 					lastSeen = '/';
-					// Force a hard reload back to root if we're now on a
-					// project route — guarantees the user never sees the
-					// template page.
 					try { window.location.replace('/'); } catch(_) {}
 				}
 			}
 		}, 100);
+
+		// CONTENT-LEVEL watchdog — Framer's React router can render a
+		// different route component without actually changing the URL.
+		// If our home-only marker (the hero section) is missing for 3
+		// consecutive checks (≥600ms) after first mount, force a hard
+		// reload to /. The 3-tick delay tolerates transient hydration
+		// re-renders so we never reload on a false positive.
+		var homeReady = false;
+		var missingTicks = 0;
+		var contentCheck = setInterval(function(){
+			var hero = document.querySelector('[data-framer-name="section-hero"]');
+			if (!homeReady) {
+				if (hero) homeReady = true;
+				return;
+			}
+			if (!hero) {
+				missingTicks++;
+				if (missingTicks >= 3) {
+					clearInterval(contentCheck);
+					try { history.replaceState({}, '', '/'); } catch(_) {}
+					window.location.replace('/');
+				}
+			} else {
+				missingTicks = 0;
+			}
+		}, 200);
 	})();</script>
 	<!-- Start of headStart -->
     
