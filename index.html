@@ -7,6 +7,73 @@
 	
 	
 	<script>try{if(localStorage.get("__framer_force_showing_editorbar_since")){const n=document.createElement("link");n.rel = "modulepreload";n.href="https://framer.com/edit/init.mjs";document.head.appendChild(n)}}catch(e){}</script>
+	<!-- EARLY: block any navigation to /projects/* before Framer's router
+	     captures the original history APIs. Must run before any other
+	     scripts so wraps apply to the references Framer caches. -->
+	<script>(function(){
+		function isProjectUrl(u){
+			if (!u) return false;
+			try {
+				var s = String(u);
+				return /\/projects\//i.test(s);
+			} catch(_) { return false; }
+		}
+		// If the page LOADED already on /projects/*, redirect to root
+		// before Framer hydrates so a fresh visit can't land on a
+		// template page either.
+		if (isProjectUrl(location.pathname)) {
+			try { history.replaceState({}, '', '/'); } catch(_) {}
+		}
+		// Wrap history APIs
+		try {
+			var p = history.pushState;
+			history.pushState = function(state, title, url){
+				if (isProjectUrl(url)) return;
+				return p.apply(this, arguments);
+			};
+			var r = history.replaceState;
+			history.replaceState = function(state, title, url){
+				if (isProjectUrl(url)) return;
+				return r.apply(this, arguments);
+			};
+		} catch(_) {}
+		// Wrap location.assign / location.replace
+		try {
+			var origAssign = window.location.assign.bind(window.location);
+			var origReplace = window.location.replace.bind(window.location);
+			window.location.assign = function(url){
+				if (isProjectUrl(url)) return;
+				return origAssign(url);
+			};
+			window.location.replace = function(url){
+				if (isProjectUrl(url)) return;
+				return origReplace(url);
+			};
+		} catch(_) {}
+		// popstate fallback — if URL ever lands on /projects/*, snap back.
+		window.addEventListener('popstate', function(){
+			if (isProjectUrl(location.pathname)) {
+				try { history.replaceState({}, '', '/'); } catch(_) {}
+			}
+		}, true);
+		// Periodic safety check — if router somehow gets through (e.g.
+		// it kept a private reference to the un-wrapped function), snap
+		// the URL back to root and prevent the route from rendering.
+		var lastSeen = location.pathname;
+		setInterval(function(){
+			if (location.pathname !== lastSeen) {
+				lastSeen = location.pathname;
+				if (isProjectUrl(location.pathname)) {
+					try { history.replaceState({}, '', '/'); } catch(_) {}
+					lastSeen = '/';
+					// Force a hard reload back to root if we're now on a
+					// project route — guarantees the user never sees the
+					// template page.
+					try { window.location.replace('/'); } catch(_) {}
+				}
+			}
+		}, 100);
+	})();</script>
 	<!-- Start of headStart -->
     
     <!-- End of headStart -->
@@ -2232,9 +2299,48 @@
 		function disableProjectClicks() {
 			// Capture-phase listeners — kill EVERY event a project anchor
 			// could navigate from. stopImmediatePropagation prevents
-			// Framer's React onClick from firing too.
+			// Framer's React onClick from firing too. We also patch the
+			// history API in case Framer calls router.push() without an
+			// underlying DOM click (e.g. after drag-release).
 			if (!window._stoikProjectClicksKilled) {
 				window._stoikProjectClicksKilled = true;
+				function looksLikeProject(url){
+					if (!url) return false;
+					var s = String(url);
+					return /\/projects\//i.test(s);
+				}
+				try {
+					var _push = history.pushState;
+					var _replace = history.replaceState;
+					history.pushState = function(state, title, url){
+						if (looksLikeProject(url)) { return; }
+						return _push.apply(history, arguments);
+					};
+					history.replaceState = function(state, title, url){
+						if (looksLikeProject(url)) { return; }
+						return _replace.apply(history, arguments);
+					};
+				} catch(e){}
+				// If somehow the URL still hits /projects/*, bounce back.
+				window.addEventListener('popstate', function(){
+					if (looksLikeProject(location.pathname)) {
+						try { history.replaceState({}, '', '/'); } catch(_) {}
+					}
+				});
+				// Final safety net — wrap location.assign/replace and
+				// `location.href = ...` so direct assignments are blocked.
+				try {
+					var _assign = window.location.assign.bind(window.location);
+					var _replaceLoc = window.location.replace.bind(window.location);
+					window.location.assign = function(url){
+						if (looksLikeProject(url)) return;
+						return _assign(url);
+					};
+					window.location.replace = function(url){
+						if (looksLikeProject(url)) return;
+						return _replaceLoc(url);
+					};
+				} catch(e){}
 				var NAV_MAP = {
 					'./':         'top',
 					'./index':    'top',
