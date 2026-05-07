@@ -1381,7 +1381,7 @@
 				name: 'Rick Bagshaw',
 				role: 'Ex-CMO, P2P.org',
 				image: 'assets/testimonials/rick.png',
-				quote: 'Brought Yogi in to lift our marketing visuals. The output matched senior in-house quality with none of the bottlenecks we usually run into.'
+				quote: 'Yogi anchored marketing design at P2P.org full-time. Strong taste, fast turnarounds, and a real sense of ownership over the brand — he raised the bar for everything the team shipped.'
 			},
 			{
 				name: 'Filip Berger',
