@@ -185,7 +185,16 @@
 				['\u00a92026 stoik. All Rights Reserved', '\u00a92026 Yogi Suria. All Rights Reserved'],
 				['\u00a92026 Stoik. All Rights Reserved', '\u00a92026 Yogi Suria. All Rights Reserved'],
 				['Team', 'Testimonials'],
-				['Want to join our team?', 'What our clients say'],
+				['Want to join our team?', 'Words from clients I have shipped with'],
+				// Replace any leftover "What our clients say" rendering with the no-our version
+				['What our clients say', 'Words from clients I have shipped with'],
+				// Solo-studio rewrite of remaining "Our…" / "We agency…" template copy
+				['Our focus is on creating functional, fast, & well-structured websites that meet business goals without unnecessary complexity.',
+				 'My focus is shipping work that ships — Web3 + AI products, end-to-end, no busywork.'],
+				['We begin every project with in-depth research and a clear, data-driven strategy, ensuring our agency delivers focused, impactful solutions aligned with each client’s goals.',
+				 'Every project starts with deep research and a clear strategy, so the work I ship lands focused, on-brand, and aligned with the goals you came in with.'],
+				['Still have questions? Contact us or ask our', 'Still have questions? Drop me a note.'],
+				['Contact us', 'Email me'],
 				// Stat-card labels — match the new numbers (template uses these exact strings)
 				['Years of service', 'Years of experience'],
 				['Experies & Experience', 'Years of experience'],
@@ -1289,10 +1298,10 @@
 							'<span class="stoik-process-approach-chip">Approach 2</span>' +
 							'<p class="stoik-process-label">Just bring it</p>' +
 							'<p class="stoik-pbox-copy">' +
-								'We break every barrier and just create. No process, no ' +
+								'I break every barrier and just create. No process, no ' +
 								'permission slips, no handoff lag — the brief lands and ' +
-								'the work starts. Wired ADHD and OCD spectrum, our team ' +
-								'mainlines the problem and refines until it physically ' +
+								'the work starts. Wired ADHD and OCD spectrum, I ' +
+								'mainline the problem and refine until it physically ' +
 								'can’t be improved. Pure instinct, shipped sharp.' +
 							'</p>' +
 							'<video class="stoik-pbox-video" autoplay muted loop playsinline preload="metadata" src="assets/justbringit.webm"></video>' +
