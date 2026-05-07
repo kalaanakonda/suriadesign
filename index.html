@@ -2394,10 +2394,39 @@
 			renderProjectInfoPanels();
 			injectFooterBg();
 			setupVideoLazyPlayback();
+			setupMediaShimmer();
 			// rewriteAboutCopy and restyleStatCards left disabled — they mutate
 			// Framer-managed DOM (innerHTML, cloning) which races with React
 			// reconciliation and crashes hydration. Will re-add as body-level
 			// overlays once stabilized.
+		}
+
+		// Skeleton shimmer for any media that hasn't loaded yet.
+		// Applies a moving gradient to <img>/<video> via the
+		// .stoik-media-shimmer class; removed on first paint.
+		function setupMediaShimmer() {
+			function attach(el) {
+				if (el.dataset.stoikShim) return;
+				el.dataset.stoikShim = '1';
+				var alreadyLoaded = (el.tagName === 'IMG')
+					? (el.complete && el.naturalWidth > 0)
+					: (el.readyState >= 2);
+				if (alreadyLoaded) { el.dataset.stoikShim = 'done'; return; }
+				el.classList.add('stoik-media-shimmer');
+				function done() {
+					el.classList.remove('stoik-media-shimmer');
+					el.dataset.stoikShim = 'done';
+				}
+				if (el.tagName === 'IMG') {
+					el.addEventListener('load',  done, { once: true });
+					el.addEventListener('error', done, { once: true });
+				} else {
+					el.addEventListener('loadeddata', done, { once: true });
+					el.addEventListener('playing',    done, { once: true });
+					el.addEventListener('error',      done, { once: true });
+				}
+			}
+			document.querySelectorAll('img, video').forEach(attach);
 		}
 
 		// Pause off-screen videos to save bandwidth + CPU; play when in view.

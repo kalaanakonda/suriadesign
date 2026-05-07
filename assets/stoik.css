@@ -709,6 +709,36 @@
 			transform: scale(1.02);
 			transform-origin: center center;
 		}
+		/* Skeleton shimmer — applied to any <img>/<video> until its
+		   load event fires. Removed via JS so once loaded the bg sits
+		   under the painted media content. */
+		img.stoik-media-shimmer,
+		video.stoik-media-shimmer {
+			background-image: linear-gradient(
+				100deg,
+				rgba(10, 10, 10, 0.05) 0%,
+				rgba(10, 10, 10, 0.05) 30%,
+				rgba(10, 10, 10, 0.16) 50%,
+				rgba(10, 10, 10, 0.05) 70%,
+				rgba(10, 10, 10, 0.05) 100%
+			);
+			background-size: 240% 100%;
+			background-repeat: no-repeat;
+			background-position: 240% 0;
+			animation: stoikMediaShimmer 1500ms linear infinite;
+		}
+		@keyframes stoikMediaShimmer {
+			0%   { background-position: 240% 0; }
+			100% { background-position: -140% 0; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			img.stoik-media-shimmer,
+			video.stoik-media-shimmer { animation: none; }
+		}
+		/* Placeholder noop block to keep the next selector below intact */
+		.stoik-carousel-card-noop {
+			display: none;
+		}
 		/* About section: word-by-word reveal + stagger cards */
 		.stoik-about-word {
 			display: inline-block;
