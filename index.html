@@ -808,14 +808,24 @@
 		.stoik-footer-content > * { pointer-events: auto; }
 		.stoik-footer-bottom {
 			display: flex;
+			flex-wrap: wrap;
 			justify-content: space-between;
 			align-items: center;
+			gap: 12px 24px;
 			padding: 18px clamp(24px, 5vw, 64px);
 			font-size: 11.5px;
 			color: rgba(10, 10, 10, 0.5);
 			letter-spacing: 0.01em;
 			border-top: 1px solid rgba(10, 10, 10, 0.08);
 		}
+		.stoik-footer-bottom-email {
+			color: rgba(10, 10, 10, 0.85);
+			text-decoration: none;
+			letter-spacing: 0.02em;
+			font-weight: 500;
+			transition: color 200ms ease;
+		}
+		.stoik-footer-bottom-email:hover { color: #1B4DFF; }
 		@media (max-width: 809px) {
 			.stoik-footer-content {
 				grid-template-columns: 1fr;
@@ -1715,6 +1725,7 @@
 					'<div class="stoik-footer-bottom">' +
 						'<span>©2026 Yogi Suria. All Rights Reserved.</span>' +
 						'<span>Solo studio · Web3 + AI</span>' +
+						'<a class="stoik-footer-bottom-email" href="mailto:reachout@yogindersuria.live">reachout@yogindersuria.live</a>' +
 					'</div>';
 				try { footer.appendChild(f); } catch (e) {}
 			});
