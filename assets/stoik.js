@@ -237,7 +237,7 @@
 			var h1 = document.querySelector('h1');
 			if (!h1 || h1.dataset.stoikDone) return;
 			// Replace all animated letter spans with plain text to avoid clipping/offset issues
-			h1.innerHTML = 'Stoik';
+			h1.innerHTML = 'Yogi Suria';
 			h1.style.whiteSpace = 'normal';
 			h1.style.fontKerning = 'normal';
 			h1.dataset.stoikDone = '1';
