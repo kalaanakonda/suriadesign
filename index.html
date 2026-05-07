@@ -526,10 +526,13 @@
 			padding: clamp(14px, 1.4vw, 20px) clamp(18px, 2.2vw, 32px);
 			font-family: 'Gilroy', 'Manrope', sans-serif;
 			box-sizing: border-box;
-			align-items: center;
+			align-items: start;
 			overflow: visible;
 			border-radius: 0 0 14px 14px;
 		}
+		/* Both grid items align to the very top so the description text
+		   sits flush with the heading on the left. */
+		.stoik-project-info > * { align-self: start; }
 		.stoik-project-info .pi-title {
 			font-size: clamp(15px, 1.2vw, 18px);
 			font-weight: 600;
