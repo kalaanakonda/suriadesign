@@ -330,7 +330,7 @@
 		.framer-1bhz4ma .framer-1w63x84-container > span {
 			font-size: 52px !important;
 			line-height: 1 !important;
-			letter-spacing: -0.5px !important;
+			letter-spacing: 0.04em !important;
 			font-weight: 600 !important;
 			text-align: left !important;
 			--framer-text-alignment: left !important;
@@ -340,13 +340,13 @@
 		@media (max-width: 1199px) {
 			.framer-1bhz4ma .framer-1w63x84-container > span {
 				font-size: 46px !important;
-				letter-spacing: -0.3px !important;
+				letter-spacing: 0.04em !important;
 			}
 		}
 		@media (max-width: 809px) {
 			.framer-1bhz4ma .framer-1w63x84-container > span {
 				font-size: 40px !important;
-				letter-spacing: -0.3px !important;
+				letter-spacing: 0.03em !important;
 			}
 		}
 		/* Label → pulled OUT of normal flow → absolute bottom-right of the card */
@@ -948,19 +948,53 @@
 		}
 
 		// ============== FAQ rewrite ==============
+		// Map: original (template) question → { q: new question, a: new answer }
+		// Each FAQ card has a question paragraph (.framer-styles-preset-pg4et9)
+		// and an answer paragraph (.framer-styles-preset-12pgllb) — we rewrite both.
 		var STOIK_FAQ_MAP = {
-			'What is your refund policy?': 'How many people in your team?',
-			'How do you prioritize criteria in your process?': 'Who does all the work?',
-			'How do I get started?': 'How do you ship like a team of ten?',
-			'Can I customize the packages you offer?': 'What does “fully agentic with AI” mean?',
-			'How can I get custom pricing?': 'How do I get started?'
+			'What is your refund policy?': {
+				q: 'How many people in your team?',
+				a: "Just me — Yogi. I run the whole studio solo. No account managers, no juniors, no handoffs."
+			},
+			'How do you prioritize criteria in your process?': {
+				q: 'Who does the actual work?',
+				a: "Same answer — me. Research, strategy, identity, UI, motion, and shipping. You talk to the person designing it."
+			},
+			'How do I get started?': {
+				q: 'How do you ship like a team of ten?',
+				a: "Tight scope, opinionated decisions, and AI tooling baked into every step — from ideation to code. Concept to ship in days, not months."
+			},
+			'Can I customize the packages you offer?': {
+				q: "What does “agentic with AI” mean?",
+				a: "AI runs the repetitive parts of the pipeline so the craft work gets all the attention. Image gen, copy variants, code scaffolds, motion presets — automated and routed through a human eye."
+			},
+			'How can I get custom pricing?': {
+				q: 'How do I get started?',
+				a: "Drop a brief at reachout@yogindersuria.live. I reply within 24h with a fit check, scope, and timeline."
+			}
 		};
 		function rewriteFAQ() {
+			// Map question paragraphs to their card so we can also reach the answer
 			var ps = document.querySelectorAll('p.framer-text.framer-styles-preset-pg4et9');
 			for (var i = 0; i < ps.length; i++) {
-				var p = ps[i];
-				var t = (p.textContent || '').trim();
-				if (STOIK_FAQ_MAP[t]) p.textContent = STOIK_FAQ_MAP[t];
+				var qP = ps[i];
+				var origText = qP.dataset.stoikFaqOrig || (qP.textContent || '').trim();
+				var entry = STOIK_FAQ_MAP[origText];
+				if (!entry) continue;
+				// Persist the original question text so we can re-match after Framer rerenders
+				if (!qP.dataset.stoikFaqOrig) qP.dataset.stoikFaqOrig = origText;
+				qP.textContent = entry.q;
+				// Walk up to the FAQ card root, then find the answer paragraph
+				var card = qP.closest('[data-framer-name="Default"], [data-framer-name="Mobile"], [class*="framer-"]');
+				// Search up to 6 ancestors for an answer paragraph
+				var node = qP;
+				var aP = null;
+				for (var hop = 0; hop < 6 && node && !aP; hop++) {
+					node = node.parentElement;
+					if (!node) break;
+					aP = node.querySelector('p.framer-text.framer-styles-preset-12pgllb');
+				}
+				if (aP) aP.textContent = entry.a;
 			}
 		}
 

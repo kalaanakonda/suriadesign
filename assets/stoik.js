@@ -174,15 +174,16 @@
 
 		function replaceText() {
 			var map = [
-				['Building ', 'Stoic Design'],
+				['Building ', ''],
 				['Bright Futures, ', ''],
 				['Hand in Hand', ''],
 				['Luther Cooper', 'Yogi Suria'],
-				['Yogi Suria®', 'Yogi Suria®'],
-				['[ YOGI SURIA 2026 ]', '[ STOIK 2026 ]'],
-				['yogi-suria', 'stoik'],
-				['reachout@yogindersuria.live', 'stoik@gmail.com'],
-				['\u00a92026 yogi-suria. All Rights Reserved', '\u00a92026 stoik. All Rights Reserved'],
+				['Stoik Agency', 'Yogi Suria'],
+				['Stoik®', 'Yogi Suria®'],
+				['[ STOIK 2026 ]', '[ YOGI SURIA 2026 ]'],
+				['stoik@gmail.com', 'reachout@yogindersuria.live'],
+				['\u00a92026 stoik. All Rights Reserved', '\u00a92026 Yogi Suria. All Rights Reserved'],
+				['\u00a92026 Stoik. All Rights Reserved', '\u00a92026 Yogi Suria. All Rights Reserved'],
 				['Team', 'Testimonials'],
 				['Want to join our team?', 'What our clients say'],
 				// Stat-card labels — match the new numbers (template uses these exact strings)
@@ -1496,10 +1497,10 @@
 				if (numContainer.dataset.stoikNum === match) return;
 				var firstSpan = numContainer.querySelector('span');
 				var style = firstSpan ? firstSpan.getAttribute('style') || '' : '';
-				// BIG numbers (per design: top-left, big) — label moves to bottom-right via CSS
-				style = style.replace(/font-size:\s*\d+(?:\.\d+)?px/, 'font-size:96px');
-				style = style.replace(/line-height:\s*\d+(?:\.\d+)?px/, 'line-height:0.95');
-				style = style.replace(/letter-spacing:\s*-?\d+(?:\.\d+)?px/, 'letter-spacing:-3px');
+				// Sizes set in CSS via !important — keep inline values consistent.
+				style = style.replace(/font-size:\s*\d+(?:\.\d+)?px/, 'font-size:52px');
+				style = style.replace(/line-height:\s*\d+(?:\.\d+)?px/, 'line-height:1');
+				style = style.replace(/letter-spacing:\s*-?\d+(?:\.\d+)?px/, 'letter-spacing:0.04em');
 				numContainer.innerHTML = '<span style="' + style + '">' + match + '</span>';
 				numContainer.dataset.stoikNum = match;
 			});
