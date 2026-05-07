@@ -185,9 +185,9 @@
 				['\u00a92026 stoik. All Rights Reserved', '\u00a92026 Yogi Suria. All Rights Reserved'],
 				['\u00a92026 Stoik. All Rights Reserved', '\u00a92026 Yogi Suria. All Rights Reserved'],
 				['Team', 'Testimonials'],
-				['Want to join our team?', 'Words from clients I have shipped with'],
+				['Want to join our team?', 'Words from people I have shipped with'],
 				// Replace any leftover "What our clients say" rendering with the no-our version
-				['What our clients say', 'Words from clients I have shipped with'],
+				['What our clients say', 'Words from people I have shipped with'],
 				// Solo-studio rewrite of remaining "Our…" / "We agency…" template copy
 				['Our focus is on creating functional, fast, & well-structured websites that meet business goals without unnecessary complexity.',
 				 'My focus is shipping work that ships — Web3 + AI products, end-to-end, no busywork.'],
@@ -687,6 +687,22 @@
 					content.appendChild(cta);
 					card.appendChild(avatar);
 					card.appendChild(content);
+
+					// Decorative floral watermark in bottom-right; the SVG is
+					// applied as a CSS background and clipped by the card's
+					// overflow. A shimmer band sweeps across via mask animation.
+					var floral = document.createElement('div');
+					floral.className = 'stoik-cta-floral';
+					floral.setAttribute('aria-hidden', 'true');
+					card.appendChild(floral);
+					// Make sure the card is a positioning context AND clips
+					// the floral when it overflows the corner.
+					try {
+						if (getComputedStyle(card).position === 'static') { card.style.position = 'relative'; }
+						card.classList.add('stoik-cta-floral-clip');
+						card.style.setProperty('overflow', 'hidden', 'important');
+					} catch(e) {}
+
 					card.dataset.stoikRebuilt = '1';
 				}
 				}

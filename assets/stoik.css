@@ -468,6 +468,46 @@
 			font-size: 14px !important;
 			line-height: 1 !important;
 		}
+		/* CTA card needs to clip the oversized floral watermark. */
+		.framer-64hzh7:has(.stoik-cta-floral),
+		.stoik-cta-floral-clip {
+			overflow: hidden !important;
+		}
+		/* Decorative floral watermark in bottom-right of CTA card.
+		   Anchored to the card corner, slightly oversized + offset so it
+		   reads as a clipped detail (the card's overflow trims it).
+		   A faint shimmer band sweeps across via animated mask-image. */
+		.stoik-cta-floral {
+			position: absolute !important;
+			right: -14px !important;
+			bottom: -14px !important;
+			width: 110px !important;
+			height: 110px !important;
+			pointer-events: none !important;
+			opacity: 0.14 !important;
+			z-index: 0 !important;
+			background: url('cta-floral.svg') center / contain no-repeat;
+			-webkit-mask: linear-gradient(110deg,
+				rgba(0,0,0,0.55) 0%,
+				rgba(0,0,0,0.55) 38%,
+				rgba(0,0,0,1)    50%,
+				rgba(0,0,0,0.55) 62%,
+				rgba(0,0,0,0.55) 100%) 0 0 / 240% 100%;
+			        mask: linear-gradient(110deg,
+				rgba(0,0,0,0.55) 0%,
+				rgba(0,0,0,0.55) 38%,
+				rgba(0,0,0,1)    50%,
+				rgba(0,0,0,0.55) 62%,
+				rgba(0,0,0,0.55) 100%) 0 0 / 240% 100%;
+			animation: stoikFloralShimmer 5200ms linear infinite;
+		}
+		@keyframes stoikFloralShimmer {
+			0%   { -webkit-mask-position: 240% 0; mask-position: 240% 0; }
+			100% { -webkit-mask-position: -140% 0; mask-position: -140% 0; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.stoik-cta-floral { animation: none; }
+		}
 		.stoik-hero-card .framer-b71hkz {
 			grid-column: 2 !important;
 			display: flex !important;
@@ -635,14 +675,12 @@
 			min-height: calc(var(--card-w) * 9 / 16);
 			max-height: calc(var(--card-w) * 9 / 16);
 			aspect-ratio: 16 / 9;
-			border: 1px solid rgba(255, 255, 255, 0.55);
+			border: none;
 			border-radius: 0;
 			clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%);
-			background: #0a0a0a;
+			background: transparent;
 			padding: 0;
-			backdrop-filter: blur(2px);
-			-webkit-backdrop-filter: blur(2px);
-			box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+			box-shadow: none;
 			flex: 0 0 var(--card-w);
 			box-sizing: border-box;
 			overflow: hidden;
@@ -1530,4 +1568,25 @@
 			.stoik-cta-title {
 				font-size: 14px !important;
 			}
+		}
+
+		/* ─────────────────────────────────────────────────────────────
+		   Global Geist override — replaces every typeface in the site
+		   with Geist (Geist Mono for code/mono spans). Preview pass.
+		   ───────────────────────────────────────────────────────────── */
+		html, body,
+		html *, body *,
+		[class*="framer-"],
+		.stoik-hero-display, .stoik-hero-display *,
+		.stoik-sol-v2-heading, .stoik-sol-v2-heading *,
+		.stoik-loader-logo, .stoik-loader-logo *,
+		.stoik-cta-title, .stoik-cta-title *,
+		.tt-name, .tt-handle, .tt-text,
+		.framer-text, h1, h2, h3, h4, h5, h6, p, span, a, li, button, input, textarea, select, label {
+			font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+		}
+		code, kbd, pre, samp, tt,
+		.framer-text[style*="Fragment Mono"],
+		[style*="Fragment Mono"], [style*="font-family: \"Fragment Mono\""] {
+			font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace !important;
 		}
