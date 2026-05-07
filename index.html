@@ -220,7 +220,7 @@
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			gap: clamp(28px, 4vh, 56px);
+			gap: clamp(64px, 10vh, 120px);
 			transition: opacity 600ms ease, visibility 600ms ease;
 		}
 		#stoik-loader.is-out {
@@ -237,27 +237,34 @@
 			line-height: 1;
 			user-select: none;
 		}
-		#stoik-loader .stoik-loader-bar-track {
-			width: clamp(220px, 22vw, 420px);
-			height: 2px;
-			background: rgba(0, 0, 0, 0.08);
-			overflow: hidden;
-			border-radius: 2px;
+		/* Pixel-shaped loader — a row of small squares that light up
+		   sequentially, then loop. No rounded corners, sharp blocks. */
+		#stoik-loader .stoik-loader-pixels {
+			display: flex;
+			gap: 6px;
+			image-rendering: pixelated;
 		}
-		#stoik-loader .stoik-loader-bar {
-			height: 100%;
-			width: 0%;
-			background: #1B4DFF;
-			border-radius: 2px;
-			animation: stoik-loader-fill 1800ms cubic-bezier(.6, .05, .35, 1) forwards;
+		#stoik-loader .stoik-loader-pixel {
+			width: 14px;
+			height: 14px;
+			background: rgba(10, 10, 10, 0.12);
+			animation: stoik-pixel-fill 1200ms infinite cubic-bezier(.4, .15, .55, .85);
 		}
-		@keyframes stoik-loader-fill {
-			0%   { width: 0%;  }
-			55%  { width: 60%; }
-			100% { width: 100%; }
+		#stoik-loader .stoik-loader-pixel:nth-child(1) { animation-delay: 0ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(2) { animation-delay: 100ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(3) { animation-delay: 200ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(4) { animation-delay: 300ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(5) { animation-delay: 400ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(6) { animation-delay: 500ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(7) { animation-delay: 600ms; }
+		#stoik-loader .stoik-loader-pixel:nth-child(8) { animation-delay: 700ms; }
+		@keyframes stoik-pixel-fill {
+			0%, 100% { background: rgba(10, 10, 10, 0.10); transform: scale(1); }
+			40%      { background: #1B4DFF; transform: scale(1.15); }
+			60%      { background: #1B4DFF; transform: scale(1.15); }
 		}
 		@media (prefers-reduced-motion: reduce) {
-			#stoik-loader .stoik-loader-bar { animation: none; width: 100%; }
+			#stoik-loader .stoik-loader-pixel { animation: none; background: #1B4DFF; }
 		}
 		/* Hero display override — non-pixel base, only .stoik-hero-pixel spans get FK Raster */
 		.stoik-hero-display {
@@ -1065,7 +1072,16 @@
 	<!-- Loading screen — fades out once the page is ready -->
 	<div id="stoik-loader" aria-hidden="true">
 		<div class="stoik-loader-logo">Yogi Suria</div>
-		<div class="stoik-loader-bar-track"><div class="stoik-loader-bar"></div></div>
+		<div class="stoik-loader-pixels">
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+			<div class="stoik-loader-pixel"></div>
+		</div>
 	</div>
 	<script>
 	(function(){
