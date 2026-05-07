@@ -1295,7 +1295,20 @@
 		var heroVideos = [];
 		var ready = new Set();
 
-		function isReady(v){ return v.readyState >= 3 || v.error; } // HAVE_FUTURE_DATA
+		// "Ready" = first frame actually painted, not just buffered. Waits
+		// for `loadeddata` (HAVE_CURRENT_DATA) or `playing` so the user
+		// never sees black video boxes when the loader fades out.
+		function isReady(v){
+			if (v.error) return true;
+			if (v._stoikReady === true) return true;
+			// Decoded a frame AND not stuck paused at 0 (some browsers
+			// hit readyState 2 but still display black before play).
+			if (v.readyState >= 2 && (v.played && v.played.length > 0 || !v.paused)) {
+				v._stoikReady = true;
+				return true;
+			}
+			return false;
+		}
 
 		function recompute(){
 			if (dismissed || !heroVideos.length) return;
@@ -1305,7 +1318,7 @@
 			actual = Math.max(actual, p);
 			if (ready.size === heroVideos.length) {
 				// Small grace so the bar visibly hits 100% before fade.
-				setTimeout(dismiss, 180);
+				setTimeout(dismiss, 220);
 			}
 		}
 
@@ -1317,12 +1330,17 @@
 			heroVideos = Array.from(vids);
 			heroVideos.forEach(function(v){
 				if (isReady(v)) ready.add(v);
+				// Mark ready definitively when the video starts playing
+				// (frame is on screen) or has decoded a frame.
+				var markAndRecompute = function(){ v._stoikReady = true; recompute(); };
+				v.addEventListener('playing', markAndRecompute, { once: true });
 				v.addEventListener('loadeddata', recompute, { once: false });
 				v.addEventListener('canplay', recompute, { once: false });
-				v.addEventListener('canplaythrough', recompute, { once: false });
 				v.addEventListener('error', recompute, { once: false });
-				// Nudge load on browsers that wait for visibility
+				// Proactively kick off playback so a frame paints. Some
+				// browsers won't decode while preload='metadata' alone.
 				try { v.load(); } catch(e){}
+				try { var p = v.play(); if (p && p.catch) p.catch(function(){}); } catch(e){}
 			});
 			recompute();
 			return true;
@@ -1336,17 +1354,17 @@
 		})();
 
 		// Crawl progress while videos haven't reported ready yet — keeps
-		// the bar moving so it never feels stuck. Caps at 90%.
+		// the bar moving so it never feels stuck. Caps at 92%.
 		var startedAt = performance.now();
 		(function crawl(){
 			if (dismissed) return;
-			var t = (performance.now() - startedAt) / 3500; // ~3.5s to crawl
-			actual = Math.max(actual, Math.min(0.90, 0.04 + t * 0.86));
+			var t = (performance.now() - startedAt) / 4500; // ~4.5s to crawl
+			actual = Math.max(actual, Math.min(0.92, 0.04 + t * 0.88));
 			setTimeout(crawl, 80);
 		})();
 
-		// Hard safety cap: never sit on the loader longer than 7s.
-		setTimeout(dismiss, 7000);
+		// Hard safety cap: never sit on the loader longer than 9s.
+		setTimeout(dismiss, 9000);
 
 		// Also dismiss on full window load as a fallback signal.
 		window.addEventListener('load', function(){
