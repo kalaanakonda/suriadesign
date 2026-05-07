@@ -830,14 +830,14 @@
 			// matched roughly to the discipline. .mp4 entries auto-render as
 			// muted/looping videos; image extensions fall back to <img>.
 			var rows = [
-				{ title: 'Brand Identity',     img: 'assets/hero-reels/brand/redstone_2.mp4' },
-				{ title: 'Product Design',     img: 'assets/hero-reels/product/featured_screen_2026_05_03.mp4' },
-				{ title: 'Web Development',    img: 'assets/hero-reels/product/loopdesk.mp4' },
-				{ title: 'Motion & Animation', img: 'assets/hero-reels/brand/suria_017_2002411630865547709.mp4' },
-				{ title: 'Design Systems',     img: 'assets/hero-reels/product/aight.mp4' },
-				{ title: 'Prototyping',        img: 'assets/hero-reels/product/suria_008_2023592931295396007.mp4' },
-				{ title: 'Landing Pages',      img: 'assets/hero-reels/product/suria_014_2006755979766149394.mp4' },
-				{ title: 'Pitch & Decks',      img: 'assets/hero-reels/brand/suria_034_1980940236927496480.mp4' }
+				{ title: 'Brand Identity',     img: 'assets/hero-reels/brand/redstone_2.webm' },
+				{ title: 'Product Design',     img: 'assets/hero-reels/product/featured_screen_2026_05_03.webm' },
+				{ title: 'Web Development',    img: 'assets/hero-reels/product/loopdesk.webm' },
+				{ title: 'Motion & Animation', img: 'assets/hero-reels/brand/suria_017_2002411630865547709.webm' },
+				{ title: 'Design Systems',     img: 'assets/hero-reels/product/aight.webm' },
+				{ title: 'Prototyping',        img: 'assets/hero-reels/product/suria_008_2023592931295396007.webm' },
+				{ title: 'Landing Pages',      img: 'assets/hero-reels/product/suria_014_2006755979766149394.webm' },
+				{ title: 'Pitch & Decks',      img: 'assets/hero-reels/brand/suria_034_1980940236927496480.webm' }
 			];
 
 			// Fix overflow on ancestors so position:sticky works
@@ -1343,7 +1343,7 @@
 			{
 				name: 'Stanislav Buynovskiy',
 				role: 'Art Director, Lido',
-				image: 'assets/testimonials/stanislav.jpeg',
+				image: 'assets/testimonials/stanislav.jpg',
 				quote: 'Yogi was on my team at P2P.org. Sharp eye, fast turnaround, and zero hand-holding — exactly the kind of designer you trust to ship.'
 			},
 			{
@@ -1355,7 +1355,7 @@
 			{
 				name: 'Filip Berger',
 				role: 'BD, RedStone',
-				image: 'assets/testimonials/filip.jpeg',
+				image: 'assets/testimonials/filip.jpg',
 				quote: 'Worked with Yogi as a freelance at RedStone. Speed and ownership stood out — graphics shipped fast, often same day, with zero back-and-forth or chasing.'
 			},
 			{
