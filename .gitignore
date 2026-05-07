@@ -1,5 +1,6 @@
 .DS_Store
 .claude/
+.tools/
 *.baseline
 node_modules/
 .env
