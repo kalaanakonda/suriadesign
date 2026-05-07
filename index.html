@@ -684,6 +684,38 @@
 			line-height: 1;
 		}
 		.stoik-drag-cursor.is-on { opacity: 1; }
+
+		/* "View on X" cursor — small black pill that follows the mouse
+		   when hovering over a tweet ticker item. */
+		.stoik-x-cursor {
+			position: fixed; top: 0; left: 0;
+			padding: 6px 10px;
+			border-radius: 999px;
+			background: #0a0a0a;
+			color: #fff;
+			font-family: 'Gilroy', 'Manrope', sans-serif;
+			font-weight: 500;
+			font-size: 11px;
+			letter-spacing: 0.01em;
+			display: inline-flex;
+			align-items: center;
+			gap: 5px;
+			pointer-events: none;
+			z-index: 99999;
+			transform: translate3d(-9999px,-9999px,0) scale(0.9);
+			opacity: 0;
+			transition: opacity 120ms ease, transform 120ms ease;
+			white-space: nowrap;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+		}
+		.stoik-x-cursor.is-on { opacity: 1; }
+		.stoik-x-cursor svg {
+			width: 10px; height: 10px;
+			fill: currentColor;
+			flex: 0 0 auto;
+		}
+		/* Suppress native cursor on tweet items (so only the pill shows) */
+		.tt-item, .tt-item * { cursor: none !important; }
 		/* Kill Framer's custom "View" cursor renderer over project cards.
 		   Framer injects a fixed-position cursor element (host: framer-lib-cursors-host)
 		   when an element has data-framer-cursor=…. We don't want it competing with
@@ -866,8 +898,10 @@
 				transform: none !important;
 			}
 
-			/* Drag cursor pointless on touch — hide. */
-			.stoik-drag-cursor { display: none !important; }
+			/* Drag cursor + hover pill pointless on touch — hide. */
+			.stoik-drag-cursor,
+			.stoik-x-cursor { display: none !important; }
+			.tt-item, .tt-item * { cursor: pointer !important; }
 
 			/* Spline 3D viewer is heavy on mobile — strip it entirely. */
 			spline-viewer,
@@ -1855,6 +1889,49 @@
 			window.addEventListener('resize', syncState, { passive: true });
 			return c;
 		}
+
+		// Small black "View on X" pill that follows the mouse over tweet
+		// ticker items. Mirrors the DRAG-cursor pattern but smaller / pill-shaped.
+		var STOIK_X_CURSOR = null;
+		function ensureXCursor() {
+			if (STOIK_X_CURSOR) return STOIK_X_CURSOR;
+			// No hover on touch devices — skip entirely
+			if (window.matchMedia && window.matchMedia('(hover: none)').matches) return null;
+			var c = document.createElement('div');
+			c.className = 'stoik-x-cursor';
+			c.innerHTML =
+				'<span>view on</span>' +
+				'<svg viewBox="0 0 24 24" aria-hidden="true">' +
+					'<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/>' +
+				'</svg>';
+			document.body.appendChild(c);
+			STOIK_X_CURSOR = c;
+			var lastX = -9999, lastY = -9999;
+			function place(x, y, on) {
+				var s = on ? 1 : 0.9;
+				// Offset slightly so the pill sits below-right of the cursor tip
+				c.style.transform = 'translate3d(' + (x + 14) + 'px,' + (y + 14) + 'px,0) scale(' + s + ')';
+			}
+			function isOverTicker(x, y) {
+				if (x < 0 || y < 0) return false;
+				var el = document.elementFromPoint(x, y);
+				return !!(el && el.closest && el.closest('.tt-item'));
+			}
+			function syncState() {
+				var on = isOverTicker(lastX, lastY);
+				if (on) c.classList.add('is-on'); else c.classList.remove('is-on');
+				place(lastX, lastY, on);
+			}
+			function update(e){
+				lastX = e.clientX; lastY = e.clientY;
+				syncState();
+			}
+			document.addEventListener('pointermove', update, { passive: true });
+			document.addEventListener('mousemove', update, { passive: true });
+			window.addEventListener('scroll', syncState, { passive: true });
+			window.addEventListener('resize', syncState, { passive: true });
+			return c;
+		}
 		function disableProjectClicks() {
 			// Capture-phase preventDefault on every link inside Project-wrapper
 			// + rewire nav links to scroll to sections (one-pager).
@@ -2015,6 +2092,7 @@
 			positionHeroCarousel();
 			rewriteFAQ();
 			ensureDragCursor();
+			ensureXCursor();
 			disableProjectClicks();
 			renderProjectInfoPanels();
 			injectFooterBg();
