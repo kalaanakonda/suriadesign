@@ -669,7 +669,7 @@
 					avatar.loop = true;
 					avatar.playsInline = true;
 					avatar.setAttribute('playsinline', '');
-					avatar.preload = 'auto';
+					avatar.preload = 'metadata';
 					var content = document.createElement('div');
 					content.className = 'stoik-cta-content';
 					var title = document.createElement('p');
@@ -982,7 +982,7 @@
 					media.setAttribute('webkit-playsinline', '');
 					media.setAttribute('autoplay', '');
 					media.setAttribute('loop', '');
-					media.preload = 'auto';
+					media.preload = 'metadata';
 					media.controls = false;
 					media.disablePictureInPicture = true;
 					media.draggable = false;

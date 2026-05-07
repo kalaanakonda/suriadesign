@@ -1661,7 +1661,7 @@
 						media.setAttribute('webkit-playsinline', '');
 						media.setAttribute('autoplay', '');
 						media.setAttribute('loop', '');
-						media.preload = 'auto';
+						media.preload = 'metadata';
 						media.controls = false;
 						media.disablePictureInPicture = true;
 						media.draggable = false;
@@ -2116,10 +2116,36 @@
 			disableProjectClicks();
 			renderProjectInfoPanels();
 			injectFooterBg();
+			setupVideoLazyPlayback();
 			// rewriteAboutCopy and restyleStatCards left disabled — they mutate
 			// Framer-managed DOM (innerHTML, cloning) which races with React
 			// reconciliation and crashes hydration. Will re-add as body-level
 			// overlays once stabilized.
+		}
+
+		// Pause off-screen videos to save bandwidth + CPU; play when in view.
+		// Idempotent — videos already wired skip via dataset.stoikLazy.
+		var STOIK_VIDEO_IO = null;
+		function setupVideoLazyPlayback() {
+			if (!('IntersectionObserver' in window)) return;
+			if (!STOIK_VIDEO_IO) {
+				STOIK_VIDEO_IO = new IntersectionObserver(function(entries) {
+					entries.forEach(function(entry) {
+						var v = entry.target;
+						if (entry.isIntersecting) {
+							var p = v.play();
+							if (p && p.catch) p.catch(function(){});
+						} else {
+							try { v.pause(); } catch (e) {}
+						}
+					});
+				}, { rootMargin: '200px 0px', threshold: 0.01 });
+			}
+			document.querySelectorAll('video').forEach(function(v) {
+				if (v.dataset.stoikLazy === '1') return;
+				v.dataset.stoikLazy = '1';
+				STOIK_VIDEO_IO.observe(v);
+			});
 		}
 
 		if (document.readyState === 'loading') {
