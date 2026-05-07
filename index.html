@@ -2230,11 +2230,11 @@
 			return c;
 		}
 		function disableProjectClicks() {
-			// Capture-phase preventDefault on every link inside Project-wrapper
-			// + rewire nav links to scroll to sections (one-pager).
+			// Capture-phase listeners — kill EVERY event a project anchor
+			// could navigate from. stopImmediatePropagation prevents
+			// Framer's React onClick from firing too.
 			if (!window._stoikProjectClicksKilled) {
 				window._stoikProjectClicksKilled = true;
-				// Map nav hrefs → section selectors
 				var NAV_MAP = {
 					'./':         'top',
 					'./index':    'top',
@@ -2243,31 +2243,51 @@
 					'./project':  '[data-framer-name="section-projects"]',
 					'./contact':  'footer'
 				};
-				document.addEventListener('click', function(e){
-					var a = e.target && e.target.closest && e.target.closest('a[href]');
-					if (!a) return;
-					var raw = a.getAttribute('href') || '';
-					var hrefKey = raw.replace(/\/$/, '').replace(/^\.\//, './'); // normalize
-					// Project card links — fully kill
-					if (raw.indexOf('./projects/') === 0) {
-						e.preventDefault(); e.stopPropagation();
-						return;
-					}
-					// Nav links — intercept and scroll
-					if (NAV_MAP[hrefKey]) {
-						e.preventDefault(); e.stopPropagation();
-						var selector = NAV_MAP[hrefKey];
-						if (selector === 'top') {
-							window.scrollTo({ top: 0, behavior: 'smooth' });
-						} else {
-							var target = document.querySelector(selector);
-							if (target) {
-								var top = target.getBoundingClientRect().top + window.scrollY - 20;
-								window.scrollTo({ top: top, behavior: 'smooth' });
+				function isProjectLink(raw){
+					return raw && (raw.indexOf('./projects/') === 0 || raw.indexOf('/projects/') === 0 || /\/projects\//.test(raw));
+				}
+				function killEvent(e, why){
+					try { e.preventDefault(); } catch(_) {}
+					try { e.stopPropagation(); } catch(_) {}
+					try { e.stopImmediatePropagation(); } catch(_) {}
+				}
+				function findAnchor(target){
+					if (!target) return null;
+					if (target.closest) return target.closest('a[href], a');
+					var n = target;
+					while (n && n.tagName !== 'A') n = n.parentElement;
+					return n;
+				}
+				// Multi-event capture: click, mousedown, mouseup,
+				// touchend, pointerup, auxclick. Whatever Framer is
+				// listening to, this fires before it.
+				['click','auxclick','mousedown','mouseup','pointerup','touchend','touchstart'].forEach(function(ev){
+					document.addEventListener(ev, function(e){
+						var a = findAnchor(e.target);
+						if (!a) return;
+						var raw = (a.getAttribute && a.getAttribute('href')) || a.href || '';
+						if (isProjectLink(raw)) {
+							killEvent(e, 'project');
+							return;
+						}
+						// Only handle the click-equivalent for nav scroll
+						if (ev !== 'click') return;
+						var hrefKey = raw.replace(/\/$/, '').replace(/^\.\//, './');
+						if (NAV_MAP[hrefKey]) {
+							killEvent(e, 'nav');
+							var selector = NAV_MAP[hrefKey];
+							if (selector === 'top') {
+								window.scrollTo({ top: 0, behavior: 'smooth' });
+							} else {
+								var target = document.querySelector(selector);
+								if (target) {
+									var top = target.getBoundingClientRect().top + window.scrollY - 20;
+									window.scrollTo({ top: top, behavior: 'smooth' });
+								}
 							}
 						}
-					}
-				}, true);
+					}, true);
+				});
 			}
 			// Strip Framer's data-framer-cursor attribute from project card
 			// containers — that attribute is what triggers Framer's blue "View"
@@ -2276,14 +2296,23 @@
 			cards.forEach(function(el){
 				try { el.removeAttribute('data-framer-cursor'); } catch (er) {}
 			});
-			// Also kill the project anchors' default cursor + any pointer events
-			// on the wrapping <a> by neutralizing them — the carousel handles
-			// pointer events and we don't want the anchor stealing focus.
-			var anchors = document.querySelectorAll('[data-framer-name="Project-wrapper"] a[href*="./projects/"]');
+			// Hard-neutralize every project anchor: strip href, role, target,
+			// aria, and replace any onclick. Keeps the element in the DOM so
+			// the carousel layout doesn't shift, but it's no longer a link.
+			var anchors = document.querySelectorAll(
+				'[data-framer-name="Project-wrapper"] a[href*="projects/"], ' +
+				'a[href^="./projects/"], a[href^="/projects/"]'
+			);
 			anchors.forEach(function(a){
-				a.style.cursor = 'default';
-				// Block browser's native image drag inside the card
-				a.setAttribute('draggable', 'false');
+				try {
+					a.removeAttribute('href');
+					a.removeAttribute('target');
+					a.removeAttribute('rel');
+					a.removeAttribute('role');
+					a.setAttribute('draggable', 'false');
+					a.style.cursor = 'default';
+					a.onclick = function(e){ e && e.preventDefault && e.preventDefault(); return false; };
+				} catch(er) {}
 			});
 		}
 		function renderProjectInfoPanels() {
