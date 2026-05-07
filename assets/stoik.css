@@ -479,10 +479,10 @@
 		   A faint shimmer band sweeps across via animated mask-image. */
 		.stoik-cta-floral {
 			position: absolute !important;
-			right: -14px !important;
-			bottom: -14px !important;
-			width: 110px !important;
-			height: 110px !important;
+			right: -8px !important;
+			bottom: -50px !important;
+			width: 148px !important;
+			height: 148px !important;
 			pointer-events: none !important;
 			opacity: 0.14 !important;
 			z-index: 0 !important;
