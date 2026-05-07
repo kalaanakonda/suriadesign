@@ -829,6 +829,73 @@
 			from { transform: translateX(0); }
 			to   { transform: translateX(-50%); }
 		}
+
+		/* ============================================================
+		   MOBILE OVERRIDES (≤ 809px)
+		   ============================================================ */
+		@media (max-width: 809px) {
+			/* About heading is too big in FK Raster Sharp at 36px on mobile —
+			   characters are pixel-wide. Scale to fit 375px viewport. */
+			[data-framer-name="section-about"] [data-framer-name="top"] h2,
+			[data-framer-name="section-about"] [data-framer-name="top"] h2 .stoik-about-word,
+			.stoik-about-heading-font,
+			.stoik-about-heading-font .stoik-about-word {
+				font-size: 22px !important;
+				line-height: 1.2 !important;
+				letter-spacing: 0 !important;
+			}
+
+			/* Stat cards: hide labels (mobile uses different markup —
+			   .framer-e4w295 wraps an h5 instead of .framer-m2h5ew p). */
+			[data-framer-name="section-about"] [data-framer-name="card-wrapper"] .framer-e4w295,
+			[data-framer-name="section-about"] [data-framer-name="card-wrapper"] h5.framer-styles-preset-18pmrus {
+				display: none !important;
+			}
+
+			/* CTA pinned card "Talk to Yogi / Mail me": move from top-right
+			   floater (which overlaps every section heading on mobile) to
+			   bottom-pinned strip. */
+			.stoik-hero-card,
+			.stoik-hero-card.stoik-card-pinned-top {
+				top: auto !important;
+				bottom: 12px !important;
+				right: 12px !important;
+				left: 12px !important;
+				width: auto !important;
+				max-width: none !important;
+				transform: none !important;
+			}
+
+			/* Drag cursor pointless on touch — hide. */
+			.stoik-drag-cursor { display: none !important; }
+
+			/* Project info panel — already 1-col on mobile via existing
+			   media query; ensure padding is sane. */
+			[data-framer-name="image"] > .stoik-project-info {
+				padding: 14px 16px !important;
+				min-height: 120px !important;
+				max-height: 50% !important;
+			}
+
+			/* Footer: 2-col grid breaks on mobile because content overlays
+			   the photo. Stack content above photo, shrink photo. */
+			.stoik-footer-hero { aspect-ratio: 16/9 !important; min-height: 320px !important; }
+			.stoik-footer-content {
+				position: relative !important;
+				grid-template-columns: 1fr !important;
+				gap: 18px !important;
+				padding: 20px 18px !important;
+				align-items: start !important;
+			}
+			.stoik-footer-headline { font-size: 28px !important; line-height: 1.05 !important; }
+			.stoik-footer-bottom {
+				flex-direction: column !important;
+				align-items: flex-start !important;
+				gap: 6px !important;
+				font-size: 11px !important;
+			}
+			.stoik-footer-bottom-email { word-break: break-all; }
+		}
 	</style>
 </head>
 
