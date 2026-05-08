@@ -1391,7 +1391,7 @@
 				name: 'Filip Berger',
 				role: 'BD, RedStone',
 				image: 'assets/testimonials/filip.webp',
-				quote: 'Worked with Yogi as a freelance at RedStone. Speed and ownership stood out — graphics shipped fast, often same day, with zero back-and-forth or chasing.'
+				quote: 'Whenever I needed graphics for campaigns or social posts, Yogi turned them around fast, often same day. He gets the brief on first read and adapts when context changes.'
 			},
 			{
 				name: 'WhyShock',
