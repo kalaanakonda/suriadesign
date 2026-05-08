@@ -765,7 +765,7 @@
 
 			// Override the original Framer template copy with brand-aligned text.
 			// One designer, one package — brand, product, marketing, motion, AI.
-			var SOURCE = 'One designer. One package. Brand, product, marketing, motion, and AI design — shipped end-to-end, no handoffs.';
+			var SOURCE = 'Brand, product, marketing, motion, and AI design. All from one designer.';
 			if (heading.dataset.stoikWordSource !== SOURCE) {
 				heading.dataset.stoikWordSource = SOURCE;
 				delete heading.dataset.stoikWordsBuilt;  // force rebuild with new copy
@@ -1259,7 +1259,7 @@
 					{ title: 'Discovery & Research', desc: 'We audit context, user intent, and constraints before touching production. This keeps momentum high while reducing avoidable rework.', timeline: 'Timeline - 1 Day' },
 					{ title: 'Strategy & Direction', desc: 'We define priorities, scope, and execution order so decisions are clear and each iteration compounds toward outcomes.', timeline: 'Timeline - 1 Day' },
 					{ title: 'Build & Iterate', desc: 'We ship in focused increments, test quickly, and adjust in real time so quality and speed stay aligned.', timeline: 'Timeline - 1-2 Days' },
-					{ title: 'Launch & Scale', desc: 'We finalize performance, polish, and handoff with a practical system so the team can keep shipping confidently.', timeline: 'Timeline - Ongoing' }
+					{ title: 'Launch & Scale', desc: 'We finalize performance, polish, and document a practical system so the team can keep shipping confidently.', timeline: 'Timeline - Ongoing' }
 				];
 			}
 			if (steps.length > 4) steps = steps.slice(0, 4);
@@ -1307,10 +1307,10 @@
 							'<p class="stoik-process-label">Traditional</p>' +
 							'<p class="stoik-pbox-copy">' +
 								'We design the orthodox way. Discovery, scoping, sprints, ' +
-								'checkpoints, reviews, handoffs — the documented playbook ' +
-								'every stakeholder already knows. Predictable cadence, ' +
-								'clean paper trail, zero surprises at delivery. The ' +
-								'dependable lane when the brief calls for one.' +
+								'checkpoints, reviews, the documented playbook every ' +
+								'stakeholder already knows. Predictable cadence, clean ' +
+								'paper trail, zero surprises at delivery. The dependable ' +
+								'lane when the brief calls for one.' +
 							'</p>' +
 							'<video class="stoik-pbox-video" autoplay muted loop playsinline preload="metadata" src="assets/traditional.webm"></video>' +
 						'</section>' +
@@ -1319,7 +1319,7 @@
 							'<p class="stoik-process-label">Just bring it</p>' +
 							'<p class="stoik-pbox-copy">' +
 								'I break every barrier and just create. No process, no ' +
-								'permission slips, no handoff lag — the brief lands and ' +
+								'permission slips, no waiting around. The brief lands and ' +
 								'the work starts. Restless and detail-obsessed, I lock ' +
 								'onto the problem and refine until it physically can’t ' +
 								'be improved. Pure instinct, shipped sharp.' +
