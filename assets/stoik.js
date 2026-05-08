@@ -213,7 +213,7 @@
 				['Jackie Markgoz', 'Rick Bagshaw'],
 				['Senior Officer', 'CMO, P2P.org'],
 				['Marry Gomez', 'Filip Berger'],
-				['Marketing Manager', 'Freelance, RedStone'],
+				['Marketing Manager', 'Marketing, RedStone'],
 				['Vicky Fernandez', 'WhyShock'],
 				['Designer', 'Founder, WhyShock'],
 				// Hide the join-our-team CTA copy (we'll replace it with testimonials intro)
@@ -1389,7 +1389,7 @@
 			},
 			{
 				name: 'Filip Berger',
-				role: 'BD, RedStone',
+				role: 'Marketing, RedStone',
 				image: 'assets/testimonials/filip.webp',
 				quote: 'Whenever I needed graphics for campaigns or social posts, Yogi turned them around fast, often same day. He gets the brief on first read and adapts when context changes.'
 			},
