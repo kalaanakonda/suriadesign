@@ -4,6 +4,10 @@
 		var aboutLockState = null;
 
 		function injectSpline() {
+			// Mobile: skip the 3D scene entirely. Spline is the single
+			// largest contributor to LCP on mobile; on viewports < 810px
+			// the carousel + tweet ticker carry the hero visually.
+			if (window.innerWidth < 810) return false;
 			var hero = document.querySelector('[data-framer-name="section-hero"]');
 			if (!hero || hero.getBoundingClientRect().height === 0) return false;
 			// Find or create the hero overlay wrap (managed by the inline script).
@@ -52,9 +56,9 @@
 
 			var host = heroSection.querySelector('[data-framer-name="hero-image"] [data-framer-background-image-wrapper="true"]') || heroSection;
 			var images = [
-				'/assets/framer/images/KhuBBhFaqXWDtnaLIfyVHJKpmdQ.jpg?width=2640&height=534',
-				'/assets/framer/images/YZ29rzRSgAiWec6tcTOzQ2eds.jpg?width=800&height=800',
-				'/assets/framer/images/8FefnrdMowkf1ToR3ACngDHlJAo.jpeg?width=1320&height=1000',
+				'/assets/framer/images/KhuBBhFaqXWDtnaLIfyVHJKpmdQ.webp?width=2640&height=534',
+				'/assets/framer/images/YZ29rzRSgAiWec6tcTOzQ2eds.webp?width=800&height=800',
+				'/assets/framer/images/8FefnrdMowkf1ToR3ACngDHlJAo.webp?width=1320&height=1000',
 				'/assets/framer/images/Am9QvLWZNXrY5M7cdchoCs8Z4M.webp?width=1476&height=1040',
 				'/assets/framer/images/CMpDE67oycKwmUwU3XeLRWoQUdg.webp?width=1476&height=1040',
 				'/assets/framer/images/Lfh4zktuKEZ7Qe4NOEGDc7aSc0.webp?width=1476&height=1040'
