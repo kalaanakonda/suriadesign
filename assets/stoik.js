@@ -765,7 +765,7 @@
 
 			// Override the original Framer template copy with brand-aligned text.
 			// One designer, one package — brand, product, marketing, motion, AI.
-			var SOURCE = 'Brand, product, marketing, motion, and AI design. All from one designer.';
+			var SOURCE = 'A studio for brand, product, marketing, motion, and AI design.';
 			if (heading.dataset.stoikWordSource !== SOURCE) {
 				heading.dataset.stoikWordSource = SOURCE;
 				delete heading.dataset.stoikWordsBuilt;  // force rebuild with new copy
