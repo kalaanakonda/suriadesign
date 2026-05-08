@@ -1374,25 +1374,25 @@
 			{
 				name: 'Stanislav Buynovskiy',
 				role: 'Art Director, Lido',
-				image: 'assets/testimonials/stanislav.jpg',
+				image: 'assets/testimonials/stanislav.webp',
 				quote: 'Yogi was on my team at P2P.org. Sharp eye, fast turnaround, and zero hand-holding — exactly the kind of designer you trust to ship.'
 			},
 			{
 				name: 'Rick Bagshaw',
 				role: 'Ex-CMO, P2P.org',
-				image: 'assets/testimonials/rick.png',
+				image: 'assets/testimonials/rick.webp',
 				quote: 'Yogi anchored marketing design at P2P.org. Strong taste, fast turnarounds, and a real sense of ownership over the brand — he raised the bar for everything the team shipped.'
 			},
 			{
 				name: 'Filip Berger',
 				role: 'BD, RedStone',
-				image: 'assets/testimonials/filip.jpg',
+				image: 'assets/testimonials/filip.webp',
 				quote: 'Worked with Yogi as a freelance at RedStone. Speed and ownership stood out — graphics shipped fast, often same day, with zero back-and-forth or chasing.'
 			},
 			{
 				name: 'WhyShock',
 				role: 'DeFi Analyst, Kelp',
-				image: 'assets/testimonials/whyshock.png',
+				image: 'assets/testimonials/whyshock.webp',
 				quote: 'Yogi just gets it. Brief in, banger out.'
 			}
 		];
