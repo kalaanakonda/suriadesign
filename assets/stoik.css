@@ -249,6 +249,12 @@
 			/* Lock the card vertically centered when sticky: equal space above
 			   and below. Card max-height is 72vh → leftover 28vh, halved = 14vh. */
 			top: calc((100vh - 72vh) / 2) !important;
+			/* Safari scroll perf: skip rendering for offscreen cards and
+			   isolate paint inside each card so scrolling one doesn't
+			   reflow/repaint the rest. */
+			content-visibility: auto;
+			contain-intrinsic-size: 1px 700px;
+			contain: layout paint style;
 		}
 		/* Stop the tilted card from being clipped at the wrapper's top edge */
 		[data-framer-name="Project-wrapper"],

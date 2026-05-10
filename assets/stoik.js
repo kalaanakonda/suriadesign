@@ -139,10 +139,19 @@
 				return canvas || v;
 			}
 
-			function forward(e) {
+			// rAF-coalesced state — capture the latest event each frame and
+			// dispatch only once. Native mousemove can fire 100+ times/sec on
+			// fast pointers and Safari was processing every one synchronously,
+			// which cascaded into scroll jank when the user happened to be
+			// scrolling with the trackpad over the page.
+			var pending = null;
+			var rafId = 0;
+			function flush() {
+				rafId = 0;
+				if (!pending) return;
+				var e = pending; pending = null;
 				var t = getSplineTarget();
 				if (!t) return;
-				// Only forward when the cursor is inside the hero section.
 				var hero = document.querySelector('[data-framer-name="section-hero"]');
 				if (hero) {
 					var hr = hero.getBoundingClientRect();
@@ -168,12 +177,16 @@
 					t.dispatchEvent(fwd);
 				} catch (_) {}
 			}
+			function forward(e) {
+				pending = e;
+				if (!rafId) rafId = requestAnimationFrame(flush);
+			}
 
-			// Use capture so we see the event before any element calls
-			// stopPropagation (and we don't preventDefault, so original handlers
-			// still receive the real event normally).
-			window.addEventListener('mousemove', forward, true);
-			window.addEventListener('pointermove', forward, true);
+			// Capture so we see the event before any element calls stopPropagation.
+			// passive:true tells the browser we won't preventDefault, so it can
+			// keep scrolling smooth on Safari.
+			window.addEventListener('mousemove', forward, { capture: true, passive: true });
+			window.addEventListener('pointermove', forward, { capture: true, passive: true });
 		}
 
 		function replaceText() {
