@@ -605,10 +605,9 @@
 			display: grid;
 			grid-template-columns: 1fr 1.6fr;
 			gap: clamp(14px, 2vw, 32px);
-			background: rgba(10, 10, 10, 0.94);
-			/* backdrop-filter removed — at 0.94 alpha the blur was invisible
-			   anyway, and Safari's blur compositing is the single biggest
-			   cause of scroll jank on this section. */
+			background: rgba(10, 10, 10, 0.92);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
 			color: #fff;
 			padding: clamp(14px, 1.4vw, 20px) clamp(18px, 2.2vw, 32px);
 			font-family: 'Gilroy', 'Manrope', sans-serif;
