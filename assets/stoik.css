@@ -519,29 +519,29 @@
 			margin-left: 14px !important;
 		}
 		.stoik-header-socials a {
-			width: 28px !important;
-			height: 28px !important;
+			width: 36px !important;
+			height: 36px !important;
 			display: inline-flex !important;
 			align-items: center !important;
 			justify-content: center !important;
-			color: rgba(10, 10, 10, 0.65) !important;
+			color: rgba(10, 10, 10, 0.7) !important;
 			border-radius: 0 !important;
 			text-decoration: none !important;
-			transition: color 160ms ease, background 160ms ease;
+			transition: color 160ms ease;
 		}
 		.stoik-header-socials a:hover {
 			color: #0a0a0a !important;
 		}
 		.stoik-header-socials svg {
-			width: 16px;
-			height: 16px;
+			width: 22px;
+			height: 22px;
 			fill: currentColor;
 			display: block;
 		}
 		@media (max-width: 540px) {
 			.stoik-header-socials { gap: 8px !important; margin-left: 8px !important; }
-			.stoik-header-socials a { width: 24px !important; height: 24px !important; }
-			.stoik-header-socials svg { width: 14px; height: 14px; }
+			.stoik-header-socials a { width: 32px !important; height: 32px !important; }
+			.stoik-header-socials svg { width: 19px; height: 19px; }
 		}
 		/* CTA card needs to clip the oversized floral watermark. */
 		.framer-64hzh7:has(.stoik-cta-floral),
