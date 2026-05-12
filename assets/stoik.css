@@ -478,6 +478,71 @@
 			font-size: 14px !important;
 			line-height: 1 !important;
 		}
+		/* Wrap holding the two CTA buttons (Mail me + DM) side by side */
+		.stoik-cta-actions {
+			display: inline-flex !important;
+			gap: 6px !important;
+			align-items: center !important;
+			margin-top: 3px !important;
+			position: relative !important;
+			z-index: 2 !important;
+		}
+		.stoik-cta-actions .stoik-cta-button {
+			margin-top: 0 !important;
+		}
+		/* "DM" button (Telegram) — secondary look: dark fill, white icon */
+		.stoik-cta-button.is-tg {
+			background: #0a0a0a !important;
+			color: #fff !important;
+			padding: 6px 10px !important;
+			gap: 6px !important;
+		}
+		.stoik-cta-button.is-tg:hover { background: #1f1f1f !important; }
+		.stoik-cta-button .stoik-cta-icon {
+			width: 12px !important;
+			height: 12px !important;
+			flex: 0 0 auto !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+		}
+		.stoik-cta-button .stoik-cta-icon svg {
+			width: 100% !important;
+			height: 100% !important;
+			fill: currentColor !important;
+		}
+		/* Header social icons — sit next to the [Home] nav link */
+		.stoik-header-socials {
+			display: inline-flex !important;
+			gap: 10px !important;
+			align-items: center !important;
+			margin-left: 14px !important;
+		}
+		.stoik-header-socials a {
+			width: 28px !important;
+			height: 28px !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			color: rgba(10, 10, 10, 0.65) !important;
+			border-radius: 0 !important;
+			text-decoration: none !important;
+			transition: color 160ms ease, background 160ms ease;
+		}
+		.stoik-header-socials a:hover {
+			color: #0a0a0a !important;
+		}
+		.stoik-header-socials svg {
+			width: 16px;
+			height: 16px;
+			fill: currentColor;
+			display: block;
+		}
+		@media (max-width: 540px) {
+			.stoik-header-socials { gap: 8px !important; margin-left: 8px !important; }
+			.stoik-header-socials a { width: 24px !important; height: 24px !important; }
+			.stoik-header-socials svg { width: 14px; height: 14px; }
+		}
 		/* CTA card needs to clip the oversized floral watermark. */
 		.framer-64hzh7:has(.stoik-cta-floral),
 		.stoik-cta-floral-clip {
