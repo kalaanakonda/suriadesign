@@ -148,11 +148,20 @@
 		[data-framer-name="services holder"] {
 			display: none !important;
 		}
-		/* One-pager nav: keep only "Home" — About / Project / Contact removed */
+		/* One-pager nav: hide ALL template nav links (Home / About / Project /
+		   Contact). The social icons in .stoik-header-socials replace nav. */
 		[data-framer-name="nav-wrapper"] a[href*="./about"],
 		[data-framer-name="nav-wrapper"] a[href*="./projects"],
 		[data-framer-name="nav-wrapper"] a[href*="./project"],
-		[data-framer-name="nav-wrapper"] a[href*="./contact"] {
+		[data-framer-name="nav-wrapper"] a[href*="./contact"],
+		[data-framer-name="nav-wrapper"] a[href="./"],
+		[data-framer-name="nav-wrapper"] a[href="./index"] {
+			display: none !important;
+		}
+		/* Also drop the <p> paragraph that wraps the Home link, otherwise its
+		   empty bracket pseudo-elements would still take up space. */
+		[data-framer-name="nav-wrapper"] p:has(> a[href="./"]),
+		[data-framer-name="nav-wrapper"] p:has(> a[href="./index"]) {
 			display: none !important;
 		}
 		/* Testimonial cards (formerly team) — hide social icons + the join-our-team
