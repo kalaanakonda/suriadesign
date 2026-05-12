@@ -511,11 +511,14 @@
 			height: 100% !important;
 			fill: currentColor !important;
 		}
-		/* Header social icons — sit right next to the [Home] nav link */
+		/* Header social icons — sit right next to the [Home] nav link.
+		   align-self: center keeps them vertically lined up with the
+		   Home text inside the nav-wrapper's flex row. */
 		.stoik-header-socials {
 			display: inline-flex !important;
 			gap: 6px !important;
 			align-items: center !important;
+			align-self: center !important;
 			margin-left: 8px !important;
 		}
 		.stoik-header-socials a {
