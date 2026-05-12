@@ -511,20 +511,20 @@
 			height: 100% !important;
 			fill: currentColor !important;
 		}
-		/* Header social icons — sit next to the [Home] nav link */
+		/* Header social icons — sit right next to the [Home] nav link */
 		.stoik-header-socials {
 			display: inline-flex !important;
-			gap: 10px !important;
+			gap: 6px !important;
 			align-items: center !important;
-			margin-left: 14px !important;
+			margin-left: 8px !important;
 		}
 		.stoik-header-socials a {
-			width: 36px !important;
-			height: 36px !important;
+			width: 44px !important;
+			height: 44px !important;
 			display: inline-flex !important;
 			align-items: center !important;
 			justify-content: center !important;
-			color: rgba(10, 10, 10, 0.7) !important;
+			color: rgba(10, 10, 10, 0.78) !important;
 			border-radius: 0 !important;
 			text-decoration: none !important;
 			transition: color 160ms ease;
@@ -533,15 +533,15 @@
 			color: #0a0a0a !important;
 		}
 		.stoik-header-socials svg {
-			width: 22px;
-			height: 22px;
+			width: 28px;
+			height: 28px;
 			fill: currentColor;
 			display: block;
 		}
 		@media (max-width: 540px) {
-			.stoik-header-socials { gap: 8px !important; margin-left: 8px !important; }
-			.stoik-header-socials a { width: 32px !important; height: 32px !important; }
-			.stoik-header-socials svg { width: 19px; height: 19px; }
+			.stoik-header-socials { gap: 4px !important; margin-left: 6px !important; }
+			.stoik-header-socials a { width: 38px !important; height: 38px !important; }
+			.stoik-header-socials svg { width: 24px; height: 24px; }
 		}
 		/* CTA card needs to clip the oversized floral watermark. */
 		.framer-64hzh7:has(.stoik-cta-floral),

@@ -2547,7 +2547,9 @@
 			// overlays once stabilized.
 		}
 
-		// Add X + Telegram icons to the right side of the header nav.
+		// Add X + Telegram icons to the header — placed immediately
+		// after the [Home] nav link so they sit tight next to it
+		// rather than getting pushed to the far edge of nav-wrapper.
 		// Idempotent — bails if already injected.
 		function injectHeaderSocials() {
 			var navs = document.querySelectorAll('[data-framer-name="nav-wrapper"]');
@@ -2563,7 +2565,20 @@
 					'<a href="https://t.me/runnersedge" target="_blank" rel="noopener noreferrer" aria-label="Telegram">' +
 						'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>' +
 					'</a>';
-				nav.appendChild(wrap);
+				// Find the visible Home link inside this nav and slot the
+				// socials right after it. Falls back to appending at the
+				// end if no Home link is found.
+				var homeLink = null;
+				var links = nav.querySelectorAll('a');
+				for (var k = 0; k < links.length; k++) {
+					var txt = (links[k].textContent || '').toLowerCase();
+					if (txt.indexOf('home') !== -1) { homeLink = links[k]; break; }
+				}
+				if (homeLink && homeLink.parentNode) {
+					homeLink.parentNode.insertBefore(wrap, homeLink.nextSibling);
+				} else {
+					nav.appendChild(wrap);
+				}
 			}
 		}
 
